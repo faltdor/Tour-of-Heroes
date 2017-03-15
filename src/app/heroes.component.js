@@ -9,10 +9,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
+var router_1 = require('@angular/router');
 var hero_service_1 = require('./hero.service');
 var HeroesComponent = (function () {
-    function HeroesComponent(heroService) {
+    function HeroesComponent(heroService, _router) {
         this.heroService = heroService;
+        this._router = _router;
     }
     HeroesComponent.prototype.ngOnInit = function () {
         this.getHeroes();
@@ -24,13 +26,17 @@ var HeroesComponent = (function () {
         var _this = this;
         this.heroService.getHeroesSlowly().then(function (heroes) { return _this.heroes = heroes; });
     };
+    HeroesComponent.prototype.gotoDetail = function () {
+        this._router.navigate(['/detail', this.selectedHero.id]);
+    };
     HeroesComponent = __decorate([
         core_1.Component({
+            moduleId: module.id,
             selector: 'my-heroes',
-            template: "\n  \t\t  \n\t\t<h2>My Heroes</h2>\n\t\t<ul class=\"heroes\">\n\t\t  <li *ngFor=\"let hero of heroes\" (click)=\"onSelect(hero)\" [class.selected]=\"hero === selectedHero\">\n\t\t  \t<span class=\"badge\">{{hero.id}}</span> {{hero.name}}\n\t\t  </li>\n\t\t</ul>\n\t\t<my-hero-detail [hero]=\"selectedHero\"></my-hero-detail>\n\n  ",
-            providers: [hero_service_1.HeroService]
+            templateUrl: './heroes.component.html',
+            styleUrls: ['./heroes.component.css']
         }), 
-        __metadata('design:paramtypes', [hero_service_1.HeroService])
+        __metadata('design:paramtypes', [hero_service_1.HeroService, router_1.Router])
     ], HeroesComponent);
     return HeroesComponent;
 }());
